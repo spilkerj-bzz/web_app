@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merriam-Webster</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <h1 class="mb-4">Merriam-Webapp</h1>
+    <div class="settings">
+        <div class="container mt-5">
+            <h1>App Settings</h1>
+            <ul class="nav nav-tabs" id="settingsTabs">
+                <li class="nav-item">
+                    <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general">General</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" id="appearance-tab" data-toggle="tab" href="#appearance">Appearance</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" id="thesaurus-tab" data-toggle="tab" href="#thesaurus">Appearance</a>
+                </li>
+            </ul>
+            <div class="tab-content mt-3">
+                <div class="tab-pane fade show active" id="general">
+                    <h4>General Settings</h4>
+                    <p>Choose what content you want to be shown</p>
+                </div>
+
+                <div class="tab-pane fade" id="appearance">
+                    <h4>Appearance Settings</h4>
+                    <p>Choose how you want content to be shown</p>
+                </div>
+
+                <div class="tab-pane fade" id="thesaurus">
+                    <h4>Thesaurus Settings</h4>
+                    <p>Change Thesaurus Settings</p>
+                </div>
+            </div>
+        </div>
+        </div>
+    <div class="form-group">
+        <label for="wordInput">Enter a word:</label>
+        <div class="input-group">
+            <input type="text" class="form-control" id="wordInput" placeholder="e.g., example">
+            <div class="input-group-append">
+                <button class="btn btn-primary" onclick="lookupWord()">Lookup</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="definitions" class="mt-4"></div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
