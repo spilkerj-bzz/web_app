@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Merriam-Webster</title>
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
-<body class="bg-light">
-
+<body style="background-color: #f9ffff">
+<img id="logo" src="/images/logo.png" alt="Marriam-webster logo" >
+<nav>
+    <div class="container mt-5">
+        <h1 class="mb-4">Merriam-Webapp</h1>
+    </div>
+</nav>
 <div class="container mt-5">
-    <h1 class="mb-4">Merriam-Webapp</h1>
     <div class="settings">
         <div class="container mt-5">
             <h1>App Settings</h1>
@@ -29,8 +34,20 @@
             <div class="tab-content mt-3">
                 <div class="tab-pane fade show active" id="general">
                     <h4>General Settings</h4>
-                    <p>Choose what content you want to be shown</p>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="showDefinitionsCheckbox" checked>
+                        <label class="form-check-label" for="showDefinitionsCheckbox">
+                            Show Definitions
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="showArtworkCheckbox" checked>
+                        <label class="form-check-label" for="showArtworkCheckbox">
+                            Show Artwork (Not all words have an Artwork)
+                        </label>
+                    </div>
                 </div>
+
 
                 <div class="tab-pane fade" id="appearance">
                     <h4>Appearance Settings</h4>
