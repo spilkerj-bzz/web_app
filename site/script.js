@@ -69,8 +69,29 @@ function displayArtwork(entries, container, word) {
     });
 }
 
-document.getElementById('wordInput').addEventListener('keyup', function (event) {
+function handleFontSizeChange(event) {
     if (event.key === 'Enter') {
-        lookupWord();
+        const fontSize = parseInt(event.target.value);
+        if (fontSize >= 11 && fontSize <= 40) {
+            document.body.style.fontSize = fontSize + 'px';
+            updateFontSize(fontSize);
+        } else {
+            alert('Font size must be between 11 and 40.');
+        }
     }
-});
+}
+document.getElementById('size-input').addEventListener('keyup', handleFontSizeChange);
+
+function handleDarkModeChange(event) {
+    const darkModeEnabled = event.target.checked;
+    if (darkModeEnabled) {
+        document.body.style.backgroundColor = '#222';
+        document.body.style.color = '#fff';
+    } else {
+        document.body.style.backgroundColor = '#f9ffff';
+        document.body.style.color = '#000';
+    }
+}
+
+document.getElementById('DarkMode').addEventListener('change', handleDarkModeChange);
+

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merriam-Webster</title>
+    <title>Merriam-Webapp</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
@@ -51,7 +51,18 @@
 
                 <div class="tab-pane fade" id="appearance">
                     <h4>Appearance Settings</h4>
-                    <p>Choose how you want content to be shown</p>
+                    <div class="Font Size">
+                        <label for="size-input"></label>
+                        <input class="text-input" type="text" id="size-input" placeholder="font size">
+                        <div class="input-group-append">
+                        </div>
+                    </div>
+                    <div class="form-check">
+                        <label for="DarkMode"></label><input class="form-check-input" type="checkbox" id="DarkMode">
+                        <label class="form-check-label" for="showDefinitionsCheckbox">
+                            Dark Mode
+                        </label>
+                    </div>
                 </div>
 
                 <div class="tab-pane fade" id="thesaurus">
