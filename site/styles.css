@@ -8,3 +8,7 @@
 #size-input{
     width: 100px;
 }
+input[type="checkbox"] {
+    transform: scale(1.5);
+}
+

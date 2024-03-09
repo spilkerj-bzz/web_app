@@ -1,5 +1,10 @@
 const apiKey = '11df6525-6445-4d95-bb32-b32fe21f45ae';
 const baseUrl = 'https://www.dictionaryapi.com/api/v3/references/collegiate/json/';
+document. addEventListener('DOMContentLoaded', () => {
+    document.body.style.backgroundColor = '#222';
+    document.body.style.color = '#fff';
+})
+
 
 async function lookupWord() {
     const wordInput = document.getElementById('wordInput');
@@ -57,7 +62,7 @@ function displayDefinitions(entries, container) {
         container.innerHTML += `<p>${index + 1}. ${entry.shortdef.join(', ')}</p>`;
     });
 }
-function displayArtwork(entries, container, word) {
+function displayArtwork(entries, container) {
     container.innerHTML += '<h2>Artwork:</h2>';
     entries.forEach((entry) => {
         if (entry.art) {
@@ -69,7 +74,7 @@ function displayArtwork(entries, container, word) {
     });
 }
 
-function handleFontSizeChange(event) {
+function FontSizeChange(event) {
     if (event.key === 'Enter') {
         const fontSize = parseInt(event.target.value);
         if (fontSize >= 11 && fontSize <= 40) {
@@ -80,9 +85,9 @@ function handleFontSizeChange(event) {
         }
     }
 }
-document.getElementById('size-input').addEventListener('keyup', handleFontSizeChange);
+document.getElementById('size-input').addEventListener('keyup', FontSizeChange);
 
-function handleDarkModeChange(event) {
+function DarkModeChange(event) {
     const darkModeEnabled = event.target.checked;
     if (darkModeEnabled) {
         document.body.style.backgroundColor = '#222';
@@ -93,5 +98,5 @@ function handleDarkModeChange(event) {
     }
 }
 
-document.getElementById('DarkMode').addEventListener('change', handleDarkModeChange);
+document.getElementById('DarkMode').addEventListener('change', DarkModeChange);
 
