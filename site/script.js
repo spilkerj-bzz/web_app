@@ -45,6 +45,7 @@ async function lookupWord() {
                     default:
                         break;
                 }
+                updateSearchHistory(word);
 
             } else {
                 alert(`Error: ${response.statusText}`);
@@ -99,4 +100,46 @@ function DarkModeChange(event) {
 }
 
 document.getElementById('DarkMode').addEventListener('change', DarkModeChange);
+
+// Function to save search query to local storage
+function saveToSearchHistory(query) {
+    let history = localStorage.getItem('searchHistory');
+    if (!history) {
+        history = [];
+    } else {
+        history = JSON.parse(history);
+    }
+    history.push(query);
+    localStorage.setItem('searchHistory', JSON.stringify(history));
+}
+
+
+
+// Function to update search history
+function updateSearchHistory(word) {
+    let searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+    searchHistory.unshift(word); // Add the new search query to the beginning of the array
+    localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+    displaySearchHistory(); // Update the displayed search history
+}
+
+// Function to display search history
+function displaySearchHistory() {
+    const searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+    const historyContainer = document.getElementById('searchHistory');
+
+    // Clear existing history
+    historyContainer.innerHTML = '';
+
+    // Render search history
+    searchHistory.forEach(query => {
+        const listItem = document.createElement('li');
+        listItem.textContent = query;
+        historyContainer.appendChild(listItem);
+    });
+}
+
+// Call displaySearchHistory on page load to populate the search history
+displaySearchHistory();
+
 
