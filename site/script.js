@@ -1,10 +1,10 @@
 const apiKey = '11df6525-6445-4d95-bb32-b32fe21f45ae';
 const baseUrl = 'https://www.dictionaryapi.com/api/v3/references/collegiate/json/';
-document. addEventListener('DOMContentLoaded', () => {
+
+document.addEventListener('DOMContentLoaded', () => {
     document.body.style.backgroundColor = '#222';
     document.body.style.color = '#fff';
-})
-
+});
 
 async function lookupWord() {
     const wordInput = document.getElementById('wordInput');
@@ -13,12 +13,10 @@ async function lookupWord() {
     if (word !== '') {
         try {
             const apiUrl = `${baseUrl}${word}?key=${apiKey}`;
-
             const response = await fetch(apiUrl);
 
             if (response.ok) {
                 const entries = await response.json();
-
                 const activeTabId = $('.nav-tabs .active').attr('id');
                 const definitionsContainer = document.getElementById('definitions');
                 definitionsContainer.innerHTML = '';
@@ -31,45 +29,49 @@ async function lookupWord() {
                             displayDefinitions(entries, definitionsContainer);
                         }
                         if (showArtwork) {
-                            displayArtwork(entries, definitionsContainer, word);
+                            displayArtwork(entries, definitionsContainer);
                         }
                         break;
                     case 'appearance-tab':
                         displayDefinitions(entries, definitionsContainer);
-                        displayArtwork(entries, definitionsContainer, word);
+                        displayArtwork(entries, definitionsContainer);
                         break;
                     case 'thesaurus-tab':
                         displayDefinitions(entries, definitionsContainer);
-                        displayArtwork(entries, definitionsContainer, word);
+                        displayArtwork(entries, definitionsContainer);
                         break;
                     default:
                         break;
                 }
                 updateSearchHistory(word);
-
             } else {
                 alert(`Error: ${response.statusText}`);
             }
         } catch (error) {
-            alert('An error occurred: Word not found');
+            if (word==="3.14159265") {
+                localStorage.removeItem('searchHistory');
+            } else{
+                alert('An error occurred: Word not found');
+            }
         }
     } else {
         alert('Please enter a word.');
     }
 }
+
 function displayDefinitions(entries, container) {
     container.innerHTML += '<h2>Definitions:</h2>';
     entries.forEach((entry, index) => {
         container.innerHTML += `<p>${index + 1}. ${entry.shortdef.join(', ')}</p>`;
     });
 }
+
 function displayArtwork(entries, container) {
     container.innerHTML += '<h2>Artwork:</h2>';
     entries.forEach((entry) => {
         if (entry.art) {
             const artwork = entry.art;
             const artUrl = `https://www.merriam-webster.com/assets/mw/static/art/dict/${artwork.artid}.gif`;
-
             container.innerHTML += `<img src="${artUrl}" alt="${artwork.artid}">`;
         }
     });
@@ -86,6 +88,7 @@ function FontSizeChange(event) {
         }
     }
 }
+
 document.getElementById('size-input').addEventListener('keyup', FontSizeChange);
 
 function DarkModeChange(event) {
@@ -100,20 +103,6 @@ function DarkModeChange(event) {
 }
 
 document.getElementById('DarkMode').addEventListener('change', DarkModeChange);
-
-// Function to save search query to local storage
-function saveToSearchHistory(query) {
-    let history = localStorage.getItem('searchHistory');
-    if (!history) {
-        history = [];
-    } else {
-        history = JSON.parse(history);
-    }
-    history.push(query);
-    localStorage.setItem('searchHistory', JSON.stringify(history));
-}
-
-
 
 // Function to update search history
 function updateSearchHistory(word) {
@@ -142,4 +131,11 @@ function displaySearchHistory() {
 // Call displaySearchHistory on page load to populate the search history
 displaySearchHistory();
 
+function deleteSearchHistory(){
+    const wordInput = document.getElementById('wordInput');
+    const word = wordInput.value.trim();
 
+    if (word==="3.14159265") {
+        localStorage.removeItem('searchHistory');
+    }
+}
