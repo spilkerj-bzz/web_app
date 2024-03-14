@@ -11,6 +11,11 @@ async function lookupWord() {
     const word = wordInput.value.trim();
 
     if (word !== '') {
+        if (word === '3.14159265') {
+            deleteSearchHistory();
+            alert('Search history cleared.');
+            return;
+        }
         try {
             const apiUrl = `${baseUrl}${word}?key=${apiKey}`;
             const response = await fetch(apiUrl);
@@ -48,16 +53,14 @@ async function lookupWord() {
                 alert(`Error: ${response.statusText}`);
             }
         } catch (error) {
-            if (word==="3.14159265") {
-                localStorage.removeItem('searchHistory');
-            } else{
-                alert('An error occurred: Word not found');
-            }
+            alert('An error occurred: Word not found');
         }
     } else {
         alert('Please enter a word.');
     }
 }
+
+
 
 function displayDefinitions(entries, container) {
     container.innerHTML += '<h2>Definitions:</h2>';
@@ -72,7 +75,7 @@ function displayArtwork(entries, container) {
         if (entry.art) {
             const artwork = entry.art;
             const artUrl = `https://www.merriam-webster.com/assets/mw/static/art/dict/${artwork.artid}.gif`;
-            container.innerHTML += `<img src="${artUrl}" alt="${artwork.artid}">`;
+            container.innerHTML += `<img src='${artUrl}' alt='${artwork.artid}'>`;
         }
     });
 }
@@ -106,21 +109,22 @@ document.getElementById('DarkMode').addEventListener('change', DarkModeChange);
 
 // Function to update search history
 function updateSearchHistory(word) {
-    let searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
-    searchHistory.unshift(word); // Add the new search query to the beginning of the array
-    localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
-    displaySearchHistory(); // Update the displayed search history
+    if (word.trim() !== '3.14159265') {
+        let searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+        searchHistory.unshift(word);
+        localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+        displaySearchHistory();
+    }
 }
 
-// Function to display search history
+
 function displaySearchHistory() {
     const searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
     const historyContainer = document.getElementById('searchHistory');
 
-    // Clear existing history
     historyContainer.innerHTML = '';
 
-    // Render search history
+
     searchHistory.forEach(query => {
         const listItem = document.createElement('li');
         listItem.textContent = query;
@@ -128,14 +132,14 @@ function displaySearchHistory() {
     });
 }
 
-// Call displaySearchHistory on page load to populate the search history
 displaySearchHistory();
 
 function deleteSearchHistory(){
     const wordInput = document.getElementById('wordInput');
     const word = wordInput.value.trim();
 
-    if (word==="3.14159265") {
+    if (word==='3.14159265') {
         localStorage.removeItem('searchHistory');
+        window.location.reload();
     }
 }
