@@ -9,7 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
 async function lookupWord() {
     const wordInput = document.getElementById('wordInput');
     const word = wordInput.value.trim();
+
     if (word !== '') {
+        if (word === '3.14159265') {
+            deleteSearchHistory();
+            alert('Search history cleared.');
+            return;
+        }
         try {
             const apiUrl = `${baseUrl}${word}?key=${apiKey}`;
             const response = await fetch(apiUrl);
@@ -64,6 +70,7 @@ document.getElementById("wordInput").addEventListener("keyup", function(event) {
         deleteSearchHistory();
     }
 });
+
 function displayDefinitions(entries, container) {
     container.innerHTML += '<h2>Definitions:</h2>';
     entries.forEach((entry, index) => {
@@ -77,10 +84,9 @@ function displayArtwork(entries, container) {
         if (entry.art) {
             const artwork = entry.art;
             const artUrl = `https://www.merriam-webster.com/assets/mw/static/art/dict/${artwork.artid}.gif`;
-            container.innerHTML += `<img src="${artUrl}" alt="${artwork.artid}">`;
+            container.innerHTML += `<img src='${artUrl}' alt='${artwork.artid}'>`;
         }
-    });
-}
+    })}
 
 function FontSizeChange(event) {
     if (event.key === 'Enter') {
@@ -109,20 +115,24 @@ function DarkModeChange(event) {
 
 document.getElementById('DarkMode').addEventListener('change', DarkModeChange);
 
+// Function to update search history
 function updateSearchHistory(word) {
-
+    if (word.trim() !== '3.14159265') {
         let searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
         searchHistory.unshift(word);
         localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
         displaySearchHistory();
+    }
 
 }
+
 
 function displaySearchHistory() {
     const searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
     const historyContainer = document.getElementById('searchHistory');
 
     historyContainer.innerHTML = '';
+
 
     searchHistory.forEach(query => {
         const listItem = document.createElement('li');
@@ -137,8 +147,9 @@ function deleteSearchHistory(){
     const wordInput = document.getElementById('wordInput');
     const word = wordInput.value.trim();
 
-    if (word==="3.14159265") {
+    if (word==='3.14159265') {
         localStorage.removeItem('searchHistory');
         location.reload()
+        window.location.reload();
     }
 }
