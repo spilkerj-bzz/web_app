@@ -132,13 +132,14 @@ function displaySearchHistory() {
 
     historyContainer.innerHTML = '';
 
-    searchHistory.forEach((query, index) => {
+    searchHistory.forEach(query => {
         const listItem = document.createElement('li');
         listItem.textContent = query;
-        listItem.id = `historyItem_${index}`;
+        listItem.addEventListener('click', searchHistoryLookup);
         historyContainer.appendChild(listItem);
     });
 }
+
 
 displaySearchHistory();
 
@@ -153,12 +154,9 @@ function deleteSearchHistory(){
     }
 }
 
-function searchHistorylookup(query) {
-    // Set the value of the wordInput field to the clicked search history query
-    document.getElementById('wordInput').value = query
-    // This will populate the input field with the clicked word
-    // Set the value of the wordInput field to query
-
-    // Call the lookupWord function to perform the search
-    lookupWord();
+function searchHistoryLookup(event) {
+    if (event.target.tagName === 'LI') {
+        document.getElementById('wordInput').value = event.target.textContent;
+        lookupWord(); // Call the lookupWord function with the selected word
+    }
 }
