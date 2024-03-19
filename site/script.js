@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
 async function lookupWord() {
     const wordInput = document.getElementById('wordInput');
     const word = wordInput.value.trim();
-
     if (word !== '') {
         try {
             const apiUrl = `${baseUrl}${word}?key=${apiKey}`;
@@ -43,22 +42,28 @@ async function lookupWord() {
                     default:
                         break;
                 }
-                updateSearchHistory(word);
+                if (word !== "3.14159265"){
+                    updateSearchHistory(word);
+                }
             } else {
-                alert(`Error: ${response.statusText}`);
+                console.error(`Error: ${response.statusText}`);
             }
         } catch (error) {
-            if (word==="3.14159265") {
-                localStorage.removeItem('searchHistory');
-            } else{
-                alert('An error occurred: Word not found');
+            if (word !=="3.14159265"){
+                console.error('An error occurred: Word not found');
             }
         }
     } else {
-        alert('Please enter a word.');
+            console.error('Please enter a word.');
+
     }
 }
-
+document.getElementById("wordInput").addEventListener("keyup", function(event) {
+    if (event.key === 'Enter') {
+        lookupWord();
+        deleteSearchHistory();
+    }
+});
 function displayDefinitions(entries, container) {
     container.innerHTML += '<h2>Definitions:</h2>';
     entries.forEach((entry, index) => {
@@ -84,7 +89,7 @@ function FontSizeChange(event) {
             document.body.style.fontSize = fontSize + 'px';
             updateFontSize(fontSize);
         } else {
-            alert('Font size must be between 11 and 40.');
+            console.error('Font size must be between 11 and 40.');
         }
     }
 }
@@ -104,23 +109,21 @@ function DarkModeChange(event) {
 
 document.getElementById('DarkMode').addEventListener('change', DarkModeChange);
 
-// Function to update search history
 function updateSearchHistory(word) {
-    let searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
-    searchHistory.unshift(word); // Add the new search query to the beginning of the array
-    localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
-    displaySearchHistory(); // Update the displayed search history
+
+        let searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+        searchHistory.unshift(word);
+        localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+        displaySearchHistory();
+
 }
 
-// Function to display search history
 function displaySearchHistory() {
     const searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
     const historyContainer = document.getElementById('searchHistory');
 
-    // Clear existing history
     historyContainer.innerHTML = '';
 
-    // Render search history
     searchHistory.forEach(query => {
         const listItem = document.createElement('li');
         listItem.textContent = query;
@@ -128,7 +131,6 @@ function displaySearchHistory() {
     });
 }
 
-// Call displaySearchHistory on page load to populate the search history
 displaySearchHistory();
 
 function deleteSearchHistory(){
@@ -137,5 +139,6 @@ function deleteSearchHistory(){
 
     if (word==="3.14159265") {
         localStorage.removeItem('searchHistory');
+        location.reload()
     }
 }
