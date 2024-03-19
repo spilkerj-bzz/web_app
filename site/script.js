@@ -115,7 +115,6 @@ function DarkModeChange(event) {
 
 document.getElementById('DarkMode').addEventListener('change', DarkModeChange);
 
-// Function to update search history
 function updateSearchHistory(word) {
     if (word.trim() !== '3.14159265') {
         let searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
@@ -133,10 +132,10 @@ function displaySearchHistory() {
 
     historyContainer.innerHTML = '';
 
-
-    searchHistory.forEach(query => {
+    searchHistory.forEach((query, index) => {
         const listItem = document.createElement('li');
         listItem.textContent = query;
+        listItem.id = `historyItem_${index}`;
         historyContainer.appendChild(listItem);
     });
 }
@@ -152,4 +151,14 @@ function deleteSearchHistory(){
         location.reload()
         window.location.reload();
     }
+}
+
+function searchHistorylookup(query) {
+    // Set the value of the wordInput field to the clicked search history query
+    document.getElementById('wordInput').value = query
+    // This will populate the input field with the clicked word
+    // Set the value of the wordInput field to query
+
+    // Call the lookupWord function to perform the search
+    lookupWord();
 }
