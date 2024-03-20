@@ -70,7 +70,7 @@ document.getElementById("wordInput").addEventListener("keyup", function(event) {
     if (event.key === 'Enter') {
         lookupWord().then(() => {
         }).catch((error) => {
-            console.error(`Something ain't right`, error);
+            console.error(`Something ain't right: `, error);
         });
         deleteSearchHistory();
     }
@@ -92,13 +92,17 @@ function displayArtwork(entries, container) {
     entries.forEach((entry) => {
         if (entry.hasOwnProperty('art')) {
             const artwork = entry.art;
-            if (artwork.hasOwnProperty('artID')) {
-                const artUrl = `https://www.merriam-webster.com/assets/mw/static/art/dict/${artwork.artID}.gif`;
-                container.innerHTML += `<img src="${artUrl}" alt="${artwork.artID}">`;
+            if (artwork.hasOwnProperty('artid')) {
+                const artUrl = `https://www.merriam-webster.com/assets/mw/static/art/dict/${artwork.artid}.gif`;
+                const imgElement = document.createElement('img');
+                imgElement.src = artUrl;
+                imgElement.alt = artwork.artid;
+                container.appendChild(imgElement);
             }
         }
     });
 }
+
 
 function DarkModeChange(event) {
     const darkModeEnabled = event.target.checked;
@@ -157,7 +161,7 @@ function searchHistoryLookup(event) {
         document.getElementById('wordInput').value = event.target.textContent;
         lookupWord().then(() => {
         }).catch((error) => {
-            console.error(`Something ain't right`, error);
+            console.error(`Something ain't right: `, error);
         });
     }
 }
