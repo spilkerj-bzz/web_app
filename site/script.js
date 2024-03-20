@@ -1,3 +1,5 @@
+// noinspection JSValidateTypes
+
 const apiKey = '11df6525-6445-4d95-bb32-b32fe21f45ae';
 const baseUrl = 'https://www.dictionaryapi.com/api/v3/references/collegiate/json/';
 
@@ -66,7 +68,10 @@ async function lookupWord() {
 }
 document.getElementById("wordInput").addEventListener("keyup", function(event) {
     if (event.key === 'Enter') {
-        lookupWord();
+        lookupWord().then(() => {
+        }).catch((error) => {
+            console.error(`Something ain't right`, error);
+        });
         deleteSearchHistory();
     }
 });
@@ -74,33 +79,26 @@ document.getElementById("wordInput").addEventListener("keyup", function(event) {
 function displayDefinitions(entries, container) {
     container.innerHTML += '<h2>Definitions:</h2>';
     entries.forEach((entry, index) => {
-        container.innerHTML += `<p>${index + 1}. ${entry.shortdef.join(', ')}</p>`;
+        if (entry.shortdef) {
+            container.innerHTML += `<p>${index + 1}. ${entry.shortdef.join(', ')}</p>`;
+        }
     });
 }
+
+
 
 function displayArtwork(entries, container) {
     container.innerHTML += '<h2>Artwork:</h2>';
     entries.forEach((entry) => {
-        if (entry.art) {
+        if (entry.hasOwnProperty('art')) {
             const artwork = entry.art;
-            const artUrl = `https://www.merriam-webster.com/assets/mw/static/art/dict/${artwork.artid}.gif`;
-            container.innerHTML += `<img src='${artUrl}' alt='${artwork.artid}'>`;
+            if (artwork.hasOwnProperty('artID')) {
+                const artUrl = `https://www.merriam-webster.com/assets/mw/static/art/dict/${artwork.artID}.gif`;
+                container.innerHTML += `<img src="${artUrl}" alt="${artwork.artID}">`;
+            }
         }
-    })}
-
-function FontSizeChange(event) {
-    if (event.key === 'Enter') {
-        const fontSize = parseInt(event.target.value);
-        if (fontSize >= 11 && fontSize <= 40) {
-            document.body.style.fontSize = fontSize + 'px';
-            updateFontSize(fontSize);
-        } else {
-            console.error('Font size must be between 11 and 40.');
-        }
-    }
+    });
 }
-
-document.getElementById('size-input').addEventListener('keyup', FontSizeChange);
 
 function DarkModeChange(event) {
     const darkModeEnabled = event.target.checked;
@@ -157,6 +155,10 @@ function deleteSearchHistory(){
 function searchHistoryLookup(event) {
     if (event.target.tagName === 'LI') {
         document.getElementById('wordInput').value = event.target.textContent;
-        lookupWord(); // Call the lookupWord function with the selected word
+        lookupWord().then(() => {
+        }).catch((error) => {
+            console.error(`Something ain't right`, error);
+        });
     }
 }
+
